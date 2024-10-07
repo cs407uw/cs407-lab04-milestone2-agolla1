@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 1)
         } else {
-            startLocationUpdates()
+            startListening()
             gpsLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, gpsLocationListener)
             val lastKnownLocation: Location? = gpsLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
             if (lastKnownLocation != null) {
@@ -59,12 +59,12 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 1) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startLocationUpdates()
+                startListening()
             }
         }
     }
 
-    private fun startLocationUpdates() {
+    private fun startListening() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             gpsLocationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
