@@ -19,8 +19,8 @@ import androidx.core.view.WindowInsetsCompat
 import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var gpsLocationManager: LocationManager
-    private lateinit var gpsLocationListener: LocationListener
+    private lateinit var locationManager: LocationManager
+    private lateinit var locationListener: LocationListener
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity() {
             windowInsets
         }
 
-        gpsLocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        gpsLocationListener = LocationListener { currentLocation: Location ->
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        locationListener = LocationListener { currentLocation: Location ->
             updateLocationInfo(currentLocation)
         }
 
@@ -43,8 +43,8 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 1)
         } else {
             startListening()
-            gpsLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, gpsLocationListener)
-            val lastKnownLocation: Location? = gpsLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, locationListener)
+            val lastKnownLocation: Location? = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
             if (lastKnownLocation != null) {
                 updateLocationInfo(lastKnownLocation)
             }
@@ -66,11 +66,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun startListening() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            gpsLocationManager.requestLocationUpdates(
+            locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
                 0L,
                 0f,
-                gpsLocationListener
+                locationListener
             )
         }
     }
