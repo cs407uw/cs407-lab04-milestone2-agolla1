@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
@@ -83,15 +82,9 @@ class MainActivity : AppCompatActivity() {
         ) { addressList ->
             if (addressList.isNotEmpty()) {
                 val address = addressList[0]
-                val addressComponents = listOfNotNull(
-                    address.subThoroughfare?.trim(),
-                    address.thoroughfare?.trim(),
-                    address.locality?.trim(),
-                    address.postalCode?.trim(),
-                    address.countryName?.trim()
-                )
-                val fullAddressText = addressComponents.joinToString(separator = ", ")
-                findViewById<TextView>(R.id.addr).text = fullAddressText
+                val addressText = "Address:\n${address.subThoroughfare} ${address.thoroughfare}\n" +
+                        "${address.locality}\n${address.postalCode}\n${address.countryName}"
+                findViewById<TextView>(R.id.addr).text = addressText
             } else {
                 findViewById<TextView>(R.id.addr).text = "Could not find address"
             }
